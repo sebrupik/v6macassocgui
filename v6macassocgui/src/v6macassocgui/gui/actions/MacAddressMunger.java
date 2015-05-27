@@ -27,10 +27,13 @@ public class MacAddressMunger extends FocusAdapter {
     private final Pattern _GOODMAC;
     
     public MacAddressMunger(JTextField source) {
+        this.source = source;
         this._GOODMAC = Pattern.compile("^([[:XDigit:]]{2}[\\.:-]?){5}[[:XDigit:]]{2}");
     }
     
-    @Override public void focusGained(FocusEvent e) { workTheMagic(); }
+    @Override public void focusGained(FocusEvent e) { //workTheMagic(); 
+        
+    }
     @Override public void focusLost(FocusEvent e) {  workTheMagic(); }
     
     private void workTheMagic() {

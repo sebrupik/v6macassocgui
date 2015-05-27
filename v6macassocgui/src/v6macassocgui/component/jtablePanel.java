@@ -28,11 +28,10 @@ abstract class jtablePanel extends JPanel {
     private PreparedStatement selectPS, selectDetailPS;
     ResultSet _rSet;
     
-    public jtablePanel(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] _columns, String _macAddress) {
+    public jtablePanel(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] _columns) {
         this._owner = _owner;
         this._parent = _parent;
         this._columns = _columns;
-        this._macAddress = _macAddress;
         this._CLASS = this.getClass().getName();
         
         
@@ -77,7 +76,8 @@ abstract class jtablePanel extends JPanel {
         refreshTable(_macAddress);
     }
      
-    private void refreshTable(String ma) {
+    public void refreshTable(String ma) {
+        _macAddress = ma;
         try {
             selectPS.setString(1, _macAddress);
             populateFields( _owner.getdbConnection().executeQuery(selectPS) );

@@ -1,5 +1,7 @@
 package v6macassocgui;
 
+import v6macassocgui.gui.macViewer;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 import jdbcApp.jdbcApp;
@@ -60,8 +62,12 @@ public class v6macassocgui extends jdbcApp {
         //**************** SYSTEM *******************
         JMenu sysMenu = new JMenu("System");
         //JMenuItem connectMI = new JMenuItem("Connection");
-        JMenuItem dbMI = new JMenuItem("DB Edits");
-        //dbMI.addActionListener(new displayDBEditDialogAction(this));
+        JMenuItem msMI = new JMenuItem("MAC search");
+        msMI.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
+                createFrame("MAC_VIEWER");
+            }
+        });
          
          
         JMenuItem exitMI = new JMenuItem("Exit");
@@ -71,13 +77,25 @@ public class v6macassocgui extends jdbcApp {
             }
         });
          
-        sysMenu.add(dbMI);
+        sysMenu.add(msMI);
         //sysMenu.add(connectMI);
         sysMenu.add(exitMI);
         
         menuBar.add(sysMenu);
 
         return menuBar;
+    }
+    
+    public void createFrame(String which) {
+        JInternalFrame jif = null;
+         
+        if(getdbConnectionStatus()==DBCON_CONNECTED) {
+            if(which.equals("MAC_VIEWER")) {
+                jif = new macViewer(this);
+                jif.setSize(200, jdp.getHeight()-20);
+            }
+        }
+        this.attemptAddingJIF(jif);
     }
     
     private void attemptAddingJIF(JInternalFrame jif) {
