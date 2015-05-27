@@ -2,23 +2,29 @@ package v6macassocgui.gui;
 
 import v6macassocgui.v6macassocgui;
 import v6macassocgui.component.projectPanel3;
+import v6macassocgui.component.jtablePanelAddress;
+import v6macassocgui.component.jtablePanelAuth;
 import v6macassocgui.gui.actions.MacAddressMunger;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 public class macViewer extends projectPanel3 {
     final v6macassocgui owner;
     
     private JTextField macTxt;
     private JLabel firstSeenLbl, vendorLbl;
+    private JTable addressTbl, authTbl;
     private JTabbedPane jtp;
     
     public macViewer(v6macassocgui owner) {
         super("MAC address viewer");
         this.owner = owner;
+        
+        
         
         this.jtp = new JTabbedPane();
         
@@ -81,31 +87,14 @@ public class macViewer extends projectPanel3 {
         JPanel ft = new JPanel();
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         
-        sp.setLeftComponent(this.genAddressPanel());
-        sp.setRightComponent(this.genAuthPanel());
+        sp.setLeftComponent(new jtablePanelAddress(owner, this, "Addresses Seen", new String[]{"ps_select_mac_address", "ps_select_mac_address_detail"}, new String[]{"Timestamp", "IPv6 Address", "Source"}, macTxt.getText()));
+        sp.setRightComponent(new jtablePanelAuth(owner, this, "Authenticated Sessions", new String[]{"ps_select_mac_auth", "ps_select_mac_auth_detail"}, new String[]{"Timestamp", "Source"}, macTxt.getText()));
         
         ft.add(sp);
         
         return ft;
     }
     
-    private JPanel genAddressPanel() {
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        JPanel addPanel = new JPanel(gridbag);
-        
-        
-        return addPanel;
-    }
-    
-    private JPanel genAuthPanel() {
-        GridBagLayout gridbag = new GridBagLayout();
-        GridBagConstraints constraints = new GridBagConstraints();
-        JPanel authPanel = new JPanel(gridbag);
-        
-        
-        return authPanel;
-    }
     
 
     @Override public void closingActions() { writeProperties(); }
