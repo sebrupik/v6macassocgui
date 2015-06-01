@@ -2,6 +2,7 @@ package v6macassocgui.gui;
 
 import v6macassocgui.v6macassocgui;
 import v6macassocgui.component.projectPanel3;
+import v6macassocgui.component.jtablePanel;
 import v6macassocgui.component.jtablePanelAddress;
 import v6macassocgui.component.jtablePanelAuth;
 import v6macassocgui.gui.actions.MacAddressMunger;
@@ -21,6 +22,10 @@ public class macViewer extends projectPanel3 {
     private JLabel firstSeenLbl, vendorLbl;
     private JTable addressTbl, authTbl;
     private JTabbedPane jtp;
+    
+    private jtablePanelAddress jtpadd;
+    private jtablePanelAuth jtpauth;
+    
     
     public macViewer(v6macassocgui owner) {
         super("MAC address viewer");
@@ -43,11 +48,11 @@ public class macViewer extends projectPanel3 {
         
         JLabel dPanelLbl[] = new JLabel[]{new JLabel("MAC address: "), new JLabel("First Seen: "), new JLabel("Vendor")};
         
-        macTxt = new JTextField("");  macTxt.addFocusListener(new MacAddressMunger(macTxt));
+        macTxt = new JTextField("aa:bb:cc:dd:ee:ff");  macTxt.addFocusListener(new MacAddressMunger(macTxt));
         firstSeenLbl = new JLabel("");
         vendorLbl = new JLabel("");
         
-        JButton searchBut = new JButton("Search");  searchBut.addActionListener(new macSearchAction(_owner, searchBut));
+        JButton searchBut = new JButton("Search");  searchBut.addActionListener(new macSearchAction(_owner, this, searchBut, macTxt));
         
         buildConstraints(constraints, 0, 0, 1, 1, 100, 100);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -84,13 +89,16 @@ public class macViewer extends projectPanel3 {
     }
     
     private JPanel genFirstTab() {
-        JPanel ft = new JPanel();
-        JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        JPanel ft = new JPanel(new BorderLayout(2,2));
+        jtpadd = new jtablePanelAddress(_owner, this, "Addresses Seen", new String[]{"ps_select_mac_address", "ps_select_mac_address_detail"}, new String[]{"Timestamp", "IPv6 Address", "Source"});
+        jtpauth = new jtablePanelAuth(_owner, this, "Authenticated Sessions", new String[]{"ps_select_mac_auth", "ps_select_mac_auth_detail"}, new String[]{"Timestamp", "username", "Source"});
         
-        sp.setLeftComponent(new jtablePanelAddress(_owner, this, "Addresses Seen", new String[]{"ps_select_mac_address", "ps_select_mac_address_detail"}, new String[]{"Timestamp", "IPv6 Address", "Source"}));
-        sp.setRightComponent(new jtablePanelAuth(_owner, this, "Authenticated Sessions", new String[]{"ps_select_mac_auth", "ps_select_mac_auth_detail"}, new String[]{"Timestamp", "username", "Source"}));
+        JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);  sp.setOneTouchExpandable(true);
         
-        ft.add(sp);
+        sp.setLeftComponent(jtpadd);
+        sp.setRightComponent(jtpauth);
+        
+        ft.add(sp, BorderLayout.CENTER);
         
         return ft;
     }
@@ -98,13 +106,26 @@ public class macViewer extends projectPanel3 {
     @Override public void closingActions() { writeProperties(); }
     @Override public void writeProperties() {
     }
+    public jtablePanel getTablePanel(int lr) {
+        if(lr==0)
+            return jtpadd;
+        else
+            return jtpauth;
+    }
     
     class macSearchAction implements ActionListener {
-        public macSearchAction(v6macassocgui _owner, JButton srcBut) {
-            
+        private final JTextField _SOURCE;
+        private final macViewer _PARENT;
+        
+        public macSearchAction(v6macassocgui _owner, macViewer parent, JButton srcBut, JTextField source) {
+            this._PARENT = parent;
+            this._SOURCE = source;
         }
         @Override public void actionPerformed(ActionEvent e) {
-            
+            if(_owner.getdbConnectionStatus()==v6macassocgui.DBCON_CONNECTED) {
+                _PARENT.getTablePanel(0).refreshTable(_SOURCE.getText());
+                _PARENT.getTablePanel(1).refreshTable(_SOURCE.getText());
+            }
         }
     }
 }

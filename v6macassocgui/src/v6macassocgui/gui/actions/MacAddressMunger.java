@@ -25,10 +25,13 @@ public class MacAddressMunger extends FocusAdapter {
     JTextField source;
     
     private final Pattern _GOODMAC;
+    private final Pattern _NORMALISEMAC;
     
     public MacAddressMunger(JTextField source) {
         this.source = source;
-        this._GOODMAC = Pattern.compile("^([[:XDigit:]]{2}[\\.:-]?){5}[[:XDigit:]]{2}");
+        //this._GOODMAC = Pattern.compile("^([[:XDigit:]]{2}[\\.:-]?){5}([[:XDigit:]]{2})$");
+        this._GOODMAC = Pattern.compile("^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$");
+        this._NORMALISEMAC = Pattern.compile("^([0-9a-fA-F]{12})$");
     }
     
     @Override public void focusGained(FocusEvent e) { //workTheMagic(); 
@@ -39,16 +42,20 @@ public class MacAddressMunger extends FocusAdapter {
     private void workTheMagic() {
         String text = source.getText().trim();
         
-        if(!validate(normalise(text)))
-            JOptionPane.showMessageDialog(source, "This MAC address has the wrong format : "+source.getText());
+        //if(!validate(_GOODMAC, text))
+        if(!validate(_NORMALISEMAC, normalise(text))) {
+            JOptionPane.showMessageDialog(source, "This MAC address has the wrong format : "+source.getText()); }
     }
     
     private String normalise(String mac) {
         return mac.replaceAll("[^a-fA-F0-9]", "");
     }
     
-    private boolean validate(String mac) {
-        Matcher m = _GOODMAC.matcher(mac);
+    private boolean validate(Pattern p, String mac) {
+        Matcher m = p.matcher(mac);
+        System.out.println("matcher : "+m.find());
+        
         return m.find();
     }
+    
 }

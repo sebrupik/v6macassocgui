@@ -16,7 +16,7 @@ import java.sql.*;
  * 
  * @author snr
  */
-abstract class jtablePanel extends JPanel {
+public abstract class jtablePanel extends JPanel {
     private final String _CLASS;
     private String _macAddress;
     private String[] _columns;
@@ -38,6 +38,7 @@ abstract class jtablePanel extends JPanel {
         selectPS = _owner.getdbConnection().getPS(psStrings[0]);
         selectDetailPS = _owner.getdbConnection().getPS(psStrings[1]);
         
+        setLayout(new BorderLayout(2,2));
         addPanels(title);
     }
     
@@ -59,7 +60,6 @@ abstract class jtablePanel extends JPanel {
         _table.setComponentPopupMenu(genTableMenu());
          
         tablePanel.add(new JScrollPane(_table), BorderLayout.CENTER);
-        
         return tablePanel;
     }
     
