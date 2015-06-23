@@ -124,7 +124,7 @@ public class macViewer extends projectPanel3 {
         @Override public void actionPerformed(ActionEvent e) {
             if(_owner.getdbConnectionStatus()==v6macassocgui.DBCON_CONNECTED) {
                 _PARENT.getTablePanel(0).refreshTable(_SOURCE.getText());
-                _PARENT.getTablePanel(1).refreshTable(_SOURCE.getText());
+                //_PARENT.getTablePanel(1).refreshTable(_SOURCE.getText());
             }
         }
     }

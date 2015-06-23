@@ -49,13 +49,14 @@ public abstract class jtablePanel extends JPanel {
     private JPanel genTablePanel(String title) {
         JPanel tablePanel = new JPanel();  tablePanel.setLayout(new BorderLayout(2,2));  tablePanel.setBorder(BorderFactory.createTitledBorder(title));
         
-        _table = new JTable(new DefaultTableModel() {
+        _table = new JTable(new DefaultTableModel());
+        /*_table = new JTable(new DefaultTableModel() {
             //  Returning the Class of each column will allow different
             //  renderers to be used based on Class
             @Override public Class getColumnClass(int column) {
                     return getValueAt(0, column).getClass();
             } 
-        });
+        });*/
         
         _table.setComponentPopupMenu(genTableMenu());
          
@@ -80,7 +81,9 @@ public abstract class jtablePanel extends JPanel {
         _macAddress = ma;
         try {
             selectPS.setString(1, _macAddress);
-            populateFields( _owner.getdbConnection().executeQuery(selectPS) );
+            populateFields(selectPS.executeQuery());
+            //populateFields( _owner.getdbConnection().executeQuery(selectPS) );
+        //} catch(jdbcApp.exceptions.NullDBConnectionException ndbce) { _owner.exceptionEncountered(_CLASS+"/refreshTable", ndbce);
         } catch(SQLException sqle) { _owner.exceptionEncountered(_CLASS+"/refreshTable", sqle);
         }
     }

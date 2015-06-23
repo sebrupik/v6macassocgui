@@ -19,12 +19,19 @@ public class jtablePanelAddress extends jtablePanel {
          
         DefaultTableModel dtm = (DefaultTableModel)super.getTable().getModel();
         populateFieldsInit(dtm);
-         
+        
+        System.out.println(_CLASS+"/populateFields - is dtm null "+dtm);
+        System.out.println(_CLASS+"/populateFields - is _rset null "+_rSet);
+        
+        int i=0;
+        
         if(_rSet !=null) {
             try {
                 while(_rSet.next()) {
                     dtm.addRow(new Object[]{_rSet.getTimestamp("timestamp"), _rSet.getString("ipv6_address"), _rSet.getString("source") });
+                    i++;
                 }
+                System.out.println(_CLASS+"populateFields - results returned: "+i);
             } catch(SQLException sqle) { super.getOwner().exceptionEncountered(_CLASS+"/populatefields", sqle); }
         }
         System.out.println(_CLASS+"/populateFields - finished");
