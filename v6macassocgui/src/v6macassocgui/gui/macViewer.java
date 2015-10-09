@@ -12,8 +12,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import java.sql.ResultSet;
 
 public class macViewer extends projectPanel3 {
     private v6macassocgui _owner;
@@ -26,11 +27,14 @@ public class macViewer extends projectPanel3 {
     private jtablePanelAddress jtpadd;
     private jtablePanelAuth jtpauth;
     
+    private PreparedStatement _firstSeenPS;
+    
     
     public macViewer(v6macassocgui owner) {
         super("MAC address viewer");
         this._owner = owner;
         
+        this._firstSeenPS = _owner.getdbConnection().getPS("ps_select_mac_first_seen");
         this.jtp = new JTabbedPane();
         
         jtp.add("tables", genFirstTab());
@@ -102,6 +106,19 @@ public class macViewer extends projectPanel3 {
         
         return ft;
     }
+    
+    private String getFirstSeen(String ma) {
+        String s ="unknown";
+        try {
+            _firstSeenPS.setString(1, ma);
+            ResultSet r = _firstSeenPS.executeQuery();
+
+            if(r.first()) {
+                s = r.getTimestamp("timestamp").toString();
+            } 
+        } catch(java.sql.SQLException sqle) { }
+        return s;
+    }
 
     @Override public void closingActions() { writeProperties(); }
     @Override public void writeProperties() {
@@ -112,6 +129,8 @@ public class macViewer extends projectPanel3 {
         else
             return jtpauth;
     }
+    public JLabel getFirstSeenLbl() { return firstSeenLbl; }
+    public JLabel getVendorLbl() { return vendorLbl; }
     
     class macSearchAction implements ActionListener {
         private final JTextField _SOURCE;
@@ -125,6 +144,8 @@ public class macViewer extends projectPanel3 {
             if(_owner.getdbConnectionStatus()==v6macassocgui.DBCON_CONNECTED) {
                 _PARENT.getTablePanel(0).refreshTable(_SOURCE.getText());
                 //_PARENT.getTablePanel(1).refreshTable(_SOURCE.getText());
+                
+                _PARENT.getFirstSeenLbl().setText(_PARENT.getFirstSeen(_SOURCE.getText()));
             }
         }
     }

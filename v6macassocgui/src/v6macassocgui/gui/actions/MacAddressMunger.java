@@ -44,7 +44,8 @@ public class MacAddressMunger extends FocusAdapter {
         
         //if(!validate(_GOODMAC, text))
         if(!validate(_NORMALISEMAC, normalise(text))) {
-            JOptionPane.showMessageDialog(source, "This MAC address has the wrong format : "+source.getText()); }
+            JOptionPane.showMessageDialog(source, "This MAC address has the wrong format : "+source.getText()); 
+        }
     }
     
     private String normalise(String mac) {
@@ -53,7 +54,7 @@ public class MacAddressMunger extends FocusAdapter {
     
     private boolean validate(Pattern p, String mac) {
         Matcher m = p.matcher(mac);
-        System.out.println("matcher : "+m.find());
+        System.out.println("matcher : "+mac+" "+m.find());
         
         return m.find();
     }

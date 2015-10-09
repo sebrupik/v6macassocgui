@@ -22,19 +22,24 @@ public class v6macassocgui extends jdbcApp {
     }
     
     public static void main(String[] args) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+        
+                try {
+                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                    // If Nimbus is not available, you can set the GUI to another look and feel.
                 }
+                v6macassocgui v6MAGUI = new v6macassocgui("settings.properties", "v6macassocgui/preparedstatements.properties");
+                v6MAGUI.setVisible(true);
             }
-        } catch (Exception e) {
-            System.out.println(e);
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-        v6macassocgui v6MAGUI = new v6macassocgui("settings.properties", "v6macassocgui/preparedstatements.properties");
-        v6MAGUI.setVisible(true);
+        });
     }
 
     @Override public void assignSystemVariables() throws IOException {

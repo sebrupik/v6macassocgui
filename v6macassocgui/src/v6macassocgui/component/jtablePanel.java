@@ -1,7 +1,6 @@
 package v6macassocgui.component;
 
 import v6macassocgui.v6macassocgui;
-import v6macassocgui.component.projectPanel3;
 
 import java.awt.BorderLayout;
 import javax.swing.*;
