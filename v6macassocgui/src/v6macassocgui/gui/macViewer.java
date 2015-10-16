@@ -5,7 +5,9 @@ import v6macassocgui.component.projectPanel3;
 import v6macassocgui.component.jtablePanel;
 import v6macassocgui.component.jtablePanelAddress;
 import v6macassocgui.component.jtablePanelAuth;
+import v6macassocgui.component.timelinePanel;
 import v6macassocgui.gui.actions.MacAddressMunger;
+import v6macassocgui.gui.actions.macSearchAction;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -15,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class macViewer extends projectPanel3 {
     private v6macassocgui _owner;
@@ -26,6 +29,8 @@ public class macViewer extends projectPanel3 {
     
     private jtablePanelAddress jtpadd;
     private jtablePanelAuth jtpauth;
+    
+    private timelinePanel timelinepanel;
     
     private PreparedStatement _firstSeenPS;
     
@@ -107,7 +112,7 @@ public class macViewer extends projectPanel3 {
         return ft;
     }
     
-    private String getFirstSeen(String ma) {
+    public String getFirstSeen(String ma) {
         String s ="unknown";
         try {
             _firstSeenPS.setString(1, ma);
@@ -119,7 +124,7 @@ public class macViewer extends projectPanel3 {
         } catch(java.sql.SQLException sqle) { }
         return s;
     }
-
+    
     @Override public void closingActions() { writeProperties(); }
     @Override public void writeProperties() {
     }
@@ -131,22 +136,4 @@ public class macViewer extends projectPanel3 {
     }
     public JLabel getFirstSeenLbl() { return firstSeenLbl; }
     public JLabel getVendorLbl() { return vendorLbl; }
-    
-    class macSearchAction implements ActionListener {
-        private final JTextField _SOURCE;
-        private final macViewer _PARENT;
-        
-        public macSearchAction(v6macassocgui _owner, macViewer parent, JButton srcBut, JTextField source) {
-            this._PARENT = parent;
-            this._SOURCE = source;
-        }
-        @Override public void actionPerformed(ActionEvent e) {
-            if(_owner.getdbConnectionStatus()==v6macassocgui.DBCON_CONNECTED) {
-                _PARENT.getTablePanel(0).refreshTable(_SOURCE.getText());
-                //_PARENT.getTablePanel(1).refreshTable(_SOURCE.getText());
-                
-                _PARENT.getFirstSeenLbl().setText(_PARENT.getFirstSeen(_SOURCE.getText()));
-            }
-        }
-    }
 }
