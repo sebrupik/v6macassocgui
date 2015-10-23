@@ -52,7 +52,6 @@ public class jtablePanelAddress extends jtablePanel {
         System.out.println(_CLASS+"/populateFields - finished");
         
         java.util.Iterator it = _addressHash.entrySet().iterator();
-        String key;
         while(it.hasNext()) {
             java.util.Map.Entry pair = (java.util.Map.Entry)it.next();
             System.out.println(pair.getValue().toString());
