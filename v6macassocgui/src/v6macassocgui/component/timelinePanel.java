@@ -10,9 +10,11 @@ import java.awt.image.BufferedImage;
 import v6macassocgui.objects.addressCacheObject;
 
 public class timelinePanel extends JPanel {
+    private jtablePanelAddress _owner;
     private BufferedImage _image;
     
-    public timelinePanel() {
+    public timelinePanel(jtablePanelAddress _owner) {
+        this._owner = _owner;
         
     }
     
@@ -20,26 +22,18 @@ public class timelinePanel extends JPanel {
         return new Dimension(250,200);
     }
     
-    private void createImage() {
-        _image = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = _image.createGraphics();
+    @Override public void paintComponent(Graphics g) {
+        super.paintComponent(g);  
         
-        
-        g2.drawString("timeline!", getWidth()-20, 20);
-        g2.drawRect(20,20,getWidth()-50,getHeight()-50);
-        
-        g2.drawImage(_image,0,0,null);
-        
-        this.paintComponent(g2);
+        _owner.getAcoHash().draw((Graphics2D)g, getWidth(), getHeight());
     }
     
-    @Override public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
+    public void processACO(addressCacheObject aco, Graphics2D g2, int w, int h) {
         
     }
     
     public void processHashMap(HashMap<String, addressCacheObject> hm) {
         
     }
+    
 }

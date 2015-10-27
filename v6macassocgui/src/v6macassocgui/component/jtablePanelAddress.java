@@ -4,24 +4,27 @@ import java.awt.BorderLayout;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.HashMap;
+//import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 import v6macassocgui.v6macassocgui;
 import v6macassocgui.objects.addressCacheObject;
+import v6macassocgui.objects.acoHash;
 
 public class jtablePanelAddress extends jtablePanel {
     private final String _CLASS;
     
     private timelinePanel _timelinepanel;
-    private HashMap<String, addressCacheObject> _addressHash;
+    //private HashMap<String, addressCacheObject> _addressHash;
+    private acoHash _acoh;
     
     public jtablePanelAddress(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] columns) {
         super(_owner, _parent, title, psStrings, columns);
         this._CLASS = this.getClass().getName();
-        this._addressHash = new HashMap();
+        //this._addressHash = new HashMap();
+        this._acoh = new acoHash();
         
-        this._timelinepanel = new timelinePanel();
+        this._timelinepanel = new timelinePanel(this);
         
         
         super.add(_timelinepanel, BorderLayout.SOUTH);
@@ -43,7 +46,7 @@ public class jtablePanelAddress extends jtablePanel {
             try {
                 while(_rSet.next()) {
                     dtm.addRow(new Object[]{_rSet.getTimestamp("timestamp"), _rSet.getString("ipv6_address"), _rSet.getString("source") });
-                    this.addNewAddressTimestamp(_rSet.getString("ipv6_address"), -1, _rSet.getTimestamp("timestamp"));
+                    _acoh.addNewAddressTimestamp(_rSet.getString("ipv6_address"), -1, _rSet.getTimestamp("timestamp"));
                     i++;
                 }
                 System.out.println(_CLASS+"populateFields - results returned: "+i);
@@ -51,11 +54,11 @@ public class jtablePanelAddress extends jtablePanel {
         }
         System.out.println(_CLASS+"/populateFields - finished");
         
-        java.util.Iterator it = _addressHash.entrySet().iterator();
+        /*java.util.Iterator it = _addressHash.entrySet().iterator();
         while(it.hasNext()) {
             java.util.Map.Entry pair = (java.util.Map.Entry)it.next();
             System.out.println(pair.getValue().toString());
-        }
+        }*/
     }
     
     /**
@@ -70,7 +73,7 @@ public class jtablePanelAddress extends jtablePanel {
      * @param address 
      */
     
-    private void addNewAddressTimestamp(String address, int epoch, Timestamp ts) {
+    /*private void addNewAddressTimestamp(String address, int epoch, Timestamp ts) {
         addressCacheObject aco;
         if (_addressHash.containsKey(address)) {
             aco = _addressHash.get(address);
@@ -79,5 +82,7 @@ public class jtablePanelAddress extends jtablePanel {
         } else {
             _addressHash.put(address, new addressCacheObject(address));
         }
-    }
+    }*/
+    
+    public acoHash getAcoHash() { return this._acoh; }
 }
