@@ -127,6 +127,8 @@ public class macViewer extends projectPanel3 {
     
     @Override public void closingActions() { writeProperties(); }
     @Override public void writeProperties() {
+        _owner.saveSysProperty("sizeX.macViewer", String.valueOf(this.getSize().width));
+        _owner.saveSysProperty("sizeY.macViewer", String.valueOf(this.getSize().height));
     }
     public jtablePanel getTablePanel(int lr) {
         if(lr==0)

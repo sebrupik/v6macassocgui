@@ -97,7 +97,10 @@ public class v6macassocgui extends jdbcApp {
         if(getdbConnectionStatus()==DBCON_CONNECTED) {
             if(which.equals("MAC_VIEWER")) {
                 jif = new macViewer(this);
-                jif.setSize(200, jdp.getHeight()-20);
+                //jif.setSize(200, jdp.getHeight()-20);
+                try {
+                    jif.setSize(Integer.parseInt(getSysProperty("sizeX.macViewer")), Integer.parseInt(getSysProperty("sizeX.macViewer")) );
+                } catch(java.io.IOException ioe) { System.out.println(_CLASS+"/createFrame - "+ioe); }
             }
         }
         this.attemptAddingJIF(jif);
