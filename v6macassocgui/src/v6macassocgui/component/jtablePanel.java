@@ -83,7 +83,7 @@ public abstract class jtablePanel extends JPanel {
             populateFields(selectPS.executeQuery());
             //populateFields( _owner.getdbConnection().executeQuery(selectPS) );
         //} catch(jdbcApp.exceptions.NullDBConnectionException ndbce) { _owner.exceptionEncountered(_CLASS+"/refreshTable", ndbce);
-        } catch(SQLException sqle) { _owner.exceptionEncountered(_CLASS+"/refreshTable", sqle);
+        } catch(SQLException sqle) { _owner.log(java.util.logging.Level.SEVERE, _CLASS, "refreshTable", sqle);
         }
     }
     

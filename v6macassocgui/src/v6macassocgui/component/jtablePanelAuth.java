@@ -25,7 +25,7 @@ public class jtablePanelAuth extends jtablePanel {
                 while(_rSet.next()) {
                     dtm.addRow(new Object[]{_rSet.getTimestamp("timestamp"), _rSet.getString("source") });
                 }
-            } catch(SQLException sqle) { super.getOwner().exceptionEncountered(_CLASS+"/populatefields", sqle); }
+            } catch(SQLException sqle) { super.getOwner().log(java.util.logging.Level.SEVERE, _CLASS, "populatesFields", sqle); }
         }
         System.out.println(_CLASS+"/populateFields - finished");
     }

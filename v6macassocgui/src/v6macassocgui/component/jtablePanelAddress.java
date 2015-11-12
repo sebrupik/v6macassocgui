@@ -50,7 +50,7 @@ public class jtablePanelAddress extends jtablePanel {
                     i++;
                 }
                 System.out.println(_CLASS+"populateFields - results returned: "+i);
-            } catch(SQLException sqle) { super.getOwner().exceptionEncountered(_CLASS+"/populatefields", sqle); }
+            } catch(SQLException sqle) { super.getOwner().log(java.util.logging.Level.SEVERE, _CLASS, "populatesFields", sqle); }
         }
         System.out.println(_CLASS+"/populateFields - finished");
         

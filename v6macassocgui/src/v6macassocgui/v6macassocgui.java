@@ -7,21 +7,24 @@ import java.io.IOException;
 import jdbcApp.jdbcApp;
 
 import java.awt.event.*;
+import java.util.logging.Level;
 import javax.swing.*;
 
 public class v6macassocgui extends jdbcApp {
     private final String _CLASS;
     
     public JDesktopPane jdp;
-
-    public v6macassocgui(String propsStr, String psRBStr) {
-        super(propsStr, psRBStr);
+    
+    public v6macassocgui(String propsStr, String psRBStr, java.util.logging.Logger myLogger) {
+        super(propsStr, psRBStr, myLogger);
         this._CLASS = this.getClass().getName();
         
         this.genMainPanel();
     }
     
     public static void main(String[] args) {
+        final java.util.logging.Logger myLogger = java.util.logging.Logger.getLogger("v6macassocgui");
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override public void run() {
         
@@ -33,11 +36,11 @@ public class v6macassocgui extends jdbcApp {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println(e);
+                    myLogger.logp(java.util.logging.Level.SEVERE, "v6macassocgui", "main", e.toString());
                     // If Nimbus is not available, you can set the GUI to another look and feel.
                 }
-                v6macassocgui v6MAGUI = new v6macassocgui("settings.properties", "v6macassocgui/preparedstatements.properties");
-                v6MAGUI.setVisible(true);
+                v6macassocgui v6MAGUI = new v6macassocgui("settings.properties", "v6macassocgui/preparedstatements.properties", myLogger);
+                v6MAGUI.setVisible(true); 
             }
         });
     }
@@ -100,7 +103,7 @@ public class v6macassocgui extends jdbcApp {
                 //jif.setSize(200, jdp.getHeight()-20);
                 try {
                     jif.setSize(Integer.parseInt(getSysProperty("sizeX.macViewer")), Integer.parseInt(getSysProperty("sizeX.macViewer")) );
-                } catch(java.io.IOException ioe) { System.out.println(_CLASS+"/createFrame - "+ioe); }
+                } catch(java.io.IOException ioe) { log(Level.SEVERE, _CLASS, "createFrame", ioe); }
             }
         }
         this.attemptAddingJIF(jif);
@@ -112,7 +115,7 @@ public class v6macassocgui extends jdbcApp {
                 jif.setVisible(true);
                 jdp.add(jif);
              
-                System.out.println("frame added??");
+                log(Level.INFO, _CLASS, "attemptAddingJIF", "frame added??");
  
                 try {
                     jif.setSelected(true);
@@ -120,7 +123,7 @@ public class v6macassocgui extends jdbcApp {
                     System.out.println(e); 
                 }
             } else {
-                System.out.println("Frame exisits, nulling object!");
+                log(Level.INFO, _CLASS, "attemptAddingJIF", "Frame exisits, nulling object!");
                 jif = null;
             }
         }
@@ -134,7 +137,7 @@ public class v6macassocgui extends jdbcApp {
             if(frame.toString().equals(obj.toString()))
                 return true;
             else
-                System.out.println("JInternalFrame not already on the desktop!");
+                log(Level.INFO, _CLASS, "frameExists", "JInternalFrame not already on the desktop!");
         }
         return false;
     }
@@ -147,7 +150,7 @@ public class v6macassocgui extends jdbcApp {
             if(allFrames[i].toString().contains(query))
                 return i;
             else
-                System.out.println("JInternalFrame not already on the desktop!");
+                log(Level.INFO, _CLASS, "findFrame", "JInternalFrame not already on the desktop!");
         }
         return index;
     }
