@@ -99,8 +99,8 @@ public class macViewer extends projectPanel3 {
     
     private JPanel genFirstTab() {
         JPanel ft = new JPanel(new BorderLayout(2,2));
-        jtpadd = new jtablePanelAddress(_owner, this, "Addresses Seen", new String[]{"ps_select_mac_address", "ps_select_mac_address_detail"}, new String[]{"Timestamp", "IPv6 Address", "Source"});
-        jtpauth = new jtablePanelAuth(_owner, this, "Authenticated Sessions", new String[]{"ps_select_mac_auth", "ps_select_mac_auth_detail"}, new String[]{"Timestamp", "username", "Source"});
+        jtpadd = new jtablePanelAddress(_owner, this, "Addresses Seen", new String[]{"ps_select_mac_address", "ps_select_mac_address_detail"}, new String[]{"Timestamp", "IPv6 Address", "Source"}, true);
+        jtpauth = new jtablePanelAuth(_owner, this, "Authenticated Sessions", new String[]{"ps_select_mac_auth", "ps_select_mac_auth_detail"}, new String[]{"Timestamp", "username", "Source"}, false);
         
         JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);  sp.setOneTouchExpandable(true);
         

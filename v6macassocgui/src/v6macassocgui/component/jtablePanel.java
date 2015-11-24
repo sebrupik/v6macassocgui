@@ -27,22 +27,29 @@ public abstract class jtablePanel extends JPanel {
     private PreparedStatement selectPS, selectDetailPS;
     ResultSet _rSet;
     
-    public jtablePanel(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] _columns) {
+    public jtablePanel(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] _columns, boolean split) {
         this._owner = _owner;
         this._parent = _parent;
         this._columns = _columns;
         this._CLASS = this.getClass().getName();
         
-        
         selectPS = _owner.getdbConnection().getPS(psStrings[0]);
         selectDetailPS = _owner.getdbConnection().getPS(psStrings[1]);
         
-        setLayout(new BorderLayout(2,2));
-        addPanels(title);
+        addPanels(title, split);
     }
     
-    private void addPanels(String title) {
-        add(genTablePanel(title), BorderLayout.CENTER);
+    private void addPanels(String title, boolean split) {
+        setLayout(new BorderLayout(2,2));
+        
+        if (split) {
+            JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);  sp.setOneTouchExpandable(true);
+            sp.setTopComponent(genTablePanel(title));
+            this.add(sp, BorderLayout.CENTER);
+        } else {
+            
+            add(genTablePanel(title), BorderLayout.CENTER);
+        }
     }
     
     private JPanel genTablePanel(String title) {

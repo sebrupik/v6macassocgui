@@ -9,11 +9,13 @@ import java.util.HashMap;
 
 
 public class acoHash {
+    private final String _ADDRESS;
     private HashMap<String, addressCacheObject> _addressHash;
     private java.sql.Timestamp[] _timeRange;
     private BufferedImage _image;
     
-    public acoHash() {
+    public acoHash(String address) {
+        this._ADDRESS = address;
         this._addressHash = new HashMap<String, addressCacheObject>();
         this._timeRange = new java.sql.Timestamp[2];
     }

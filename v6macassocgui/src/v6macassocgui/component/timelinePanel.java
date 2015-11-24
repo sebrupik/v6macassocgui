@@ -25,7 +25,8 @@ public class timelinePanel extends JPanel {
     @Override public void paintComponent(Graphics g) {
         super.paintComponent(g);  
         
-        _owner.getAcoHash().draw((Graphics2D)g, getWidth(), getHeight());
+        if(_owner.getAcoHash() != null)
+            _owner.getAcoHash().draw((Graphics2D)g, getWidth(), getHeight());
     }
     
     public void processACO(addressCacheObject aco, Graphics2D g2, int w, int h) {

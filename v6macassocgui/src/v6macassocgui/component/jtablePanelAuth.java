@@ -8,8 +8,8 @@ import v6macassocgui.v6macassocgui;
 public class jtablePanelAuth extends jtablePanel {
     private final String _CLASS;
     
-    public jtablePanelAuth(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] columns) {
-        super(_owner, _parent, title, psStrings, columns);
+    public jtablePanelAuth(v6macassocgui _owner, projectPanel3 _parent, String title, String[] psStrings, String[] columns, boolean split) {
+        super(_owner, _parent, title, psStrings, columns, split);
         this._CLASS = this.getClass().getName();
     }
     
