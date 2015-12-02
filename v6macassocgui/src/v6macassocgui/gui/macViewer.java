@@ -44,6 +44,10 @@ public class macViewer extends projectPanel3 {
         
         jtp.add("tables", genFirstTab());
         
+        this.initComponents();
+    }
+    
+    private void initComponents() {
         this.setLayout(new BorderLayout(2,2));
         
         this.add(genDetailPanel(), BorderLayout.NORTH);
