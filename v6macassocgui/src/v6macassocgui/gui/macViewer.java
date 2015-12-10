@@ -39,7 +39,7 @@ public class macViewer extends projectPanel3 {
         super("MAC address viewer");
         this._owner = owner;
         
-        this._firstSeenPS = _owner.getdbConnection().getPS("ps_select_mac_first_seen");
+        this._firstSeenPS = _owner.getdbConnection2().getPS("mysql1", "ps_select_mac_first_seen");
         this.jtp = new JTabbedPane();
         
         jtp.add("tables", genFirstTab());
